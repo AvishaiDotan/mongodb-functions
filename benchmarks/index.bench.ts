@@ -1,7 +1,7 @@
 // @ts-ignore
 const Benchmark = require('benchmark')
 import { Event, Suite } from 'benchmark';
-import { client, insertOne, insertMany, insert1000, connectionTest, insertBulkWrite, insertMillion, findOne, find } from '../index';
+import { client, insertOne, insertMany, insert1000, connectionTest, insertBulkWrite, insert10K, findOne, find, findOneFull, findWorkbookWithTablesSimple, findWorkbookWithTablesAggregate, findWorkbookWithTablesAndFieldsSimple, findWorkbookWithTablesAndFieldsAggregate, findWorkbookWithTablesAndFieldsAndItemsSimple, findWorkbookWithTablesAndFieldsAndItemsAggregate, findTablesWithNameContainingIEWithIndex, findTablesWithNameContainingIEWithoutIndex } from '../index';
 
 function formatNumber(num: number | undefined): string {
     if (num === undefined || isNaN(num)) return 'N/A';
@@ -43,8 +43,6 @@ function printDetailedResults(suite: Suite) {
 
 async function runBenchmarks(samples: number = 100) {
     try {
-        // Connect to MongoDB
-        await client.connect();
         console.log('Connected to MongoDB successfully');
         console.log(`Running benchmarks with ${samples} samples per test`);
 
@@ -55,6 +53,8 @@ async function runBenchmarks(samples: number = 100) {
             .add('Connection Test', {
                 defer: true,
                 minSamples: 1,
+
+
                 fn: function (deferred: { resolve: () => void }) {
                     connectionTest().then(() => deferred.resolve());
                 }
@@ -131,34 +131,97 @@ async function runBenchmarks(samples: number = 100) {
             //         insertBulkWrite(false).then(() => deferred.resolve());
             //     }
             // })
-            // .add('Insert 1000000 Documents with ID', {
+            // .add('Insert 10k Documents with ID', {
             //     defer: true,
             //     minSamples: samples,
             //     fn: function (deferred: { resolve: () => void }) {
-            //         insertMillion(true).then(() => deferred.resolve());
+            //         insert10K(true).then(() => deferred.resolve());
             //     }
             // })
-            .add('Find One Document', {
+            // .add('Find One Document', {
+            //     defer: true,
+            //     minSamples: samples,
+            //     fn: function (deferred: { resolve: () => void }) {
+            //         findOne("users", {
+                        
+            //         }).then(() => deferred.resolve());
+            //     }
+            // })
+            // .add('Find more then one Documents', {
+            //     defer: true,
+            //     minSamples: samples,
+            //     fn: function (deferred: { resolve: () => void }) {
+            //         find("users", {email: { $regex: "gmail", $options: "i" }}).then(() => deferred.resolve());
+            //     }
+            // })
+            // .add('Find alot of documents', {
+            //     defer: true,
+            //     minSamples: samples,
+            //     fn: function (deferred: { resolve: () => void }) {
+            //         find("users", {}, 1000).then(() => deferred.resolve());
+            //     }
+            // })
+            // .add("Find one user with enriched data", {
+            //     defer: true,
+            //     minSamples: samples,
+            //     fn: function (deferred: { resolve: () => void }) {
+            //         findOneFull().then(() => deferred.resolve());
+            //     }
+            // })
+            // .add("Find workbook with tables - simple", {
+            //     defer: true,
+            //     minSamples: samples,
+            //     fn: function (deferred: { resolve: () => void }) {
+            //         findWorkbookWithTablesSimple().then(() => deferred.resolve());
+            //     }
+            // })
+            // .add("Find workbook with tables - aggregate", {
+            //     defer: true,
+            //     minSamples: samples,
+            //     fn: function (deferred: { resolve: () => void }) {
+            //         findWorkbookWithTablesAggregate().then(() => deferred.resolve());
+            //     }
+            // })
+            // .add("Find workbook with tables and fields - simple", {
+            //     defer: true,
+            //     minSamples: samples,
+            //     fn: function (deferred: { resolve: () => void }) {
+            //         findWorkbookWithTablesAndFieldsSimple().then(() => deferred.resolve());
+            //     }
+            // })
+            // .add("Find workbook with tables and fields - aggregate", {
+            //     defer: true,
+            //     minSamples: samples,
+            //     fn: function (deferred: { resolve: () => void }) {
+            //         findWorkbookWithTablesAndFieldsAggregate().then(() => deferred.resolve());
+            //     }
+            // })
+            // .add("Find workbook with tables and fields and items - simple", {
+            //     defer: true,
+            //     minSamples: samples,
+            //     fn: function (deferred: { resolve: () => void }) {
+            //         findWorkbookWithTablesAndFieldsAndItemsSimple().then(() => deferred.resolve());
+            //     }
+            // })
+            // .add("Find workbook with tables and fields and items - aggregate", {
+            //     defer: true,
+            //     minSamples: samples,
+            //     fn: function (deferred: { resolve: () => void }) {
+            //         findWorkbookWithTablesAndFieldsAndItemsAggregate().then(() => deferred.resolve());
+            //     }
+            // })
+            .add("Find tables with name containing 'ie' with index", {
                 defer: true,
                 minSamples: samples,
                 fn: function (deferred: { resolve: () => void }) {
-                    findOne({
-                        _id: 'cc9a53c0-685e-4e1c-9396-3658178e1a30'
-                    }).then(() => deferred.resolve());
+                    findTablesWithNameContainingIEWithIndex().then(() => deferred.resolve());
                 }
             })
-            .add('Find more then one Documents', {
+            .add("Find tables with name containing 'ie' without index", {
                 defer: true,
                 minSamples: samples,
                 fn: function (deferred: { resolve: () => void }) {
-                    find({age: 23}).then(() => deferred.resolve());
-                }
-            })
-            .add('Find alot of documents', {
-                defer: true,
-                minSamples: samples,
-                fn: function (deferred: { resolve: () => void }) {
-                    find({}).then(() => deferred.resolve());
+                    findTablesWithNameContainingIEWithoutIndex().then(() => deferred.resolve());
                 }
             })
             .on('cycle', function (event: Event) {
@@ -174,7 +237,7 @@ async function runBenchmarks(samples: number = 100) {
                 });
             })
             // Run async
-            .run({ 'async': true });
+            .run({ 'async': true, });
     } catch (error) {
         console.error('Failed to run benchmarks:', error);
         process.exit(1);

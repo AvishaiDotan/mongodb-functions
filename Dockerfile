@@ -1,18 +1,17 @@
+# Use the official MongoDB image
 FROM mongo:latest
 
-# Create directory for MongoDB data
-RUN mkdir -p /data/db
+# Set environment variables
+ENV MONGO_INITDB_ROOT_USERNAME=admin
+ENV MONGO_INITDB_ROOT_PASSWORD=password
+ENV MONGO_INITDB_DATABASE=app
+
 
 # Expose MongoDB port
 EXPOSE 27017
 
-# Set environment variables
-ENV MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-ENV MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-ENV MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
-
-# Create volume for data persistence
+# Create a directory for MongoDB data
 VOLUME /data/db
 
-# Start MongoDB
-CMD ["mongod"] 
+# Command to run MongoDB with data directory
+CMD ["mongod", "--dbpath", "/data/db"]

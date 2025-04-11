@@ -1,0 +1,15 @@
+E:\DEV\mongodb\bin\Debug\net7.0\NpmParallelRunner.exe
+E:\DEV\mongodb\bin\Debug\net7.0\NpmParallelRunner.deps.json
+E:\DEV\mongodb\bin\Debug\net7.0\NpmParallelRunner.runtimeconfig.json
+E:\DEV\mongodb\bin\Debug\net7.0\NpmParallelRunner.dll
+E:\DEV\mongodb\bin\Debug\net7.0\NpmParallelRunner.pdb
+E:\DEV\mongodb\obj\Debug\net7.0\NpmParallelRunner.GeneratedMSBuildEditorConfig.editorconfig
+E:\DEV\mongodb\obj\Debug\net7.0\NpmParallelRunner.AssemblyInfoInputs.cache
+E:\DEV\mongodb\obj\Debug\net7.0\NpmParallelRunner.AssemblyInfo.cs
+E:\DEV\mongodb\obj\Debug\net7.0\NpmParallelRunner.csproj.CoreCompileInputs.cache
+E:\DEV\mongodb\obj\Debug\net7.0\NpmParallelRunner.sourcelink.json
+E:\DEV\mongodb\obj\Debug\net7.0\NpmParallelRunner.dll
+E:\DEV\mongodb\obj\Debug\net7.0\refint\NpmParallelRunner.dll
+E:\DEV\mongodb\obj\Debug\net7.0\NpmParallelRunner.pdb
+E:\DEV\mongodb\obj\Debug\net7.0\NpmParallelRunner.genruntimeconfig.cache
+E:\DEV\mongodb\obj\Debug\net7.0\ref\NpmParallelRunner.dll
